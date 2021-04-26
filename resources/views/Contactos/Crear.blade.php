@@ -49,8 +49,36 @@
                             <select class="form-control" name="hatc" required>
                                 <option value="">Seleccione Horario</option>
                                 @foreach($dispo as $listado)
-                                    <option value="{{ $listado->idAgenda }}">{{ $listado->fechaAgenda }}
-                                        - {{ $listado->horaAgenda }}</option>
+                                    <option value="{{ $listado->idAgenda }}">
+                                        @if(date("N", strtotime($listado->fechaAgenda))==1)
+                                            Lunes, {{ date("d-m-Y", strtotime($listado->fechaAgenda)) }} a
+                                            las {{ ($listado->horaAgenda) }} hrs.
+                                        @endif
+                                        @if(date("N", strtotime($listado->fechaAgenda))==2)
+                                            Martes, {{ date("d-m-Y", strtotime($listado->fechaAgenda)) }} a
+                                            las {{ ($listado->horaAgenda) }} hrs.
+                                        @endif
+                                        @if(date("N", strtotime($listado->fechaAgenda))==3)
+                                            Miércoles, {{ date("d-m-Y", strtotime($listado->fechaAgenda)) }} a
+                                            las {{ ($listado->horaAgenda) }} hrs.
+                                        @endif
+                                        @if(date("N", strtotime($listado->fechaAgenda))==4)
+                                            Jueves, {{ date("d-m-Y", strtotime($listado->fechaAgenda)) }} a
+                                            las {{ ($listado->horaAgenda) }} hrs.
+                                        @endif
+                                        @if(date("N", strtotime($listado->fechaAgenda))==5)
+                                            Viernes, {{ date("d-m-Y", strtotime($listado->fechaAgenda)) }} a
+                                            las {{ ($listado->horaAgenda) }} hrs.
+                                        @endif
+                                        @if(date("N", strtotime($listado->fechaAgenda))==6)
+                                            Sábado, {{ date("d-m-Y", strtotime($listado->fechaAgenda)) }} a
+                                            las {{ ($listado->horaAgenda) }} hrs.
+                                        @endif
+                                        @if(date("N", strtotime($listado->fechaAgenda))==7)
+                                            Domingo, {{ date("d-m-Y", strtotime($listado->fechaAgenda)) }} a
+                                            las {{ ($listado->horaAgenda) }} hrs.
+                                        @endif
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -106,7 +134,36 @@
                             <tr>
                                 <td>{{ $listado->nombreContacto }}</td>
                                 <td>+56 9 {{ $listado->celularContacto }} // {{ $listado->correoContacto }}</td>
-                                <td>{{ $listado->fechaAtencion }} {{ $listado->horaAtencion }}</td>
+                                <td>
+                                    @if(date("N", strtotime($listado->fechaAtencion))==1)
+                                        Lunes, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
+                                    @endif
+                                    @if(date("N", strtotime($listado->fechaAtencion))==2)
+                                        Martes, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
+                                    @endif
+                                    @if(date("N", strtotime($listado->fechaAtencion))==3)
+                                        Miércoles, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
+                                    @endif
+                                    @if(date("N", strtotime($listado->fechaAtencion))==4)
+                                        Jueves, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
+                                    @endif
+                                    @if(date("N", strtotime($listado->fechaAtencion))==5)
+                                        Viernes, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
+                                    @endif
+                                    @if(date("N", strtotime($listado->fechaAtencion))==6)
+                                        Sábado, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
+                                    @endif
+                                    @if(date("N", strtotime($listado->fechaAtencion))==7)
+                                        Domingo, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
+                                    @endif
+                                </td>
                                 <td>{{ $listado->tipoAtencion }}</td>
                             </tr>
                         @endforeach

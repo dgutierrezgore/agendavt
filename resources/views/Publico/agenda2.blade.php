@@ -86,14 +86,14 @@
                             <div class="col-md-3">
                                 <label for="firstName" class="form-label">Nombre Completo</label>
                                 <input type="text" class="form-control" name="nombrecontacto" placeholder=""
-                                       value=""
+                                       value="{{ $contacto->nombreContacto }}"
                                        required="">
                             </div>
 
                             <div class="col-md-4">
                                 <label for="lastName" class="form-label">Correo Electrónico</label>
                                 <input type="email" class="form-control" name="mailcontacto" placeholder=""
-                                       value=""
+                                       value="{{ $contacto->correoContacto }}"
                                        required="">
                             </div>
 
@@ -104,7 +104,7 @@
                                     <input type="number" max="99999999" min="20000000" maxlength="8"
                                            class="form-control"
                                            name="fonocontacto" placeholder="Máximo 8 Números"
-                                           value=""
+                                           value="{{ $contacto->celularContacto }}"
                                            required="">
                                 </div>
                             </div>
@@ -176,25 +176,32 @@
                             <tr>
                                 <td>
                                     @if(date("N", strtotime($listado->fechaAtencion))==1)
-                                        Lunes, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a las {{ ($listado->horaAtencion) }}
+                                        Lunes, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
                                     @endif
                                     @if(date("N", strtotime($listado->fechaAtencion))==2)
-                                        Martes, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }}
+                                        Martes, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
                                     @endif
                                     @if(date("N", strtotime($listado->fechaAtencion))==3)
-                                        Miércoles, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }}
+                                        Miércoles, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
                                     @endif
                                     @if(date("N", strtotime($listado->fechaAtencion))==4)
-                                        Jueves, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }}
+                                        Jueves, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
                                     @endif
                                     @if(date("N", strtotime($listado->fechaAtencion))==5)
-                                        Viernes, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }}
+                                        Viernes, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
                                     @endif
                                     @if(date("N", strtotime($listado->fechaAtencion))==6)
-                                        Sábado, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }}
+                                        Sábado, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
                                     @endif
                                     @if(date("N", strtotime($listado->fechaAtencion))==7)
-                                        Domingo, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }}
+                                        Domingo, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
                                     @endif
                                 </td>
                                 <td>{{ $listado->nombreCliente }} </td>

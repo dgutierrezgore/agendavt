@@ -75,7 +75,7 @@
                 <div class="card-body">
                     @foreach($disponibilidad as $listado)
                         <ul>
-                            <li><strong>FECHA: </strong>{{ $listado->fechaAgenda }} - <strong>Horas Disponibles para
+                            <li><strong>FECHA: </strong>{{ date("d-m-Y", strtotime($listado->fechaAgenda))}} - <strong>Horas Disponibles para
                                     Atención:</strong> {{ $listado->horaAgenda }}
                             </li>
                         </ul>

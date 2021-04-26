@@ -34,7 +34,29 @@
                         <tbody>
                         @foreach($disponibilidad as $listado)
                             <tr>
-                                <td>{{ $listado->fechaAgenda }}</td>
+                                <td>
+                                    @if(date("N", strtotime($listado->fechaAgenda))==1)
+                                        Lunes, {{ date("d-m-Y", strtotime($listado->fechaAgenda)) }}
+                                    @endif
+                                    @if(date("N", strtotime($listado->fechaAgenda))==2)
+                                        Martes, {{ date("d-m-Y", strtotime($listado->fechaAgenda)) }}
+                                    @endif
+                                    @if(date("N", strtotime($listado->fechaAgenda))==3)
+                                        Miércoles, {{ date("d-m-Y", strtotime($listado->fechaAgenda)) }}
+                                    @endif
+                                    @if(date("N", strtotime($listado->fechaAgenda))==4)
+                                        Jueves, {{ date("d-m-Y", strtotime($listado->fechaAgenda)) }}
+                                    @endif
+                                    @if(date("N", strtotime($listado->fechaAgenda))==5)
+                                        Viernes, {{ date("d-m-Y", strtotime($listado->fechaAgenda)) }}
+                                    @endif
+                                    @if(date("N", strtotime($listado->fechaAgenda))==6)
+                                        Sábado, {{ date("d-m-Y", strtotime($listado->fechaAgenda)) }}
+                                    @endif
+                                    @if(date("N", strtotime($listado->fechaAgenda))==7)
+                                        Domingo, {{ date("d-m-Y", strtotime($listado->fechaAgenda)) }}
+                                    @endif
+                                </td>
                                 <td>{{ $listado->horaAgenda }}</td>
                                 <td>
                                     @if($listado->estadoAgenda == 1)
