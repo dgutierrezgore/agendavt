@@ -61,7 +61,7 @@
         <div class="col">
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">
-                    <h4 class="my-0 fw-normal">{{ $cliente[0]->nombreCliente }}</h4>
+                    <h4 class="my-0 fw-normal">con: {{ $cliente[0]->nombreCliente }}</h4>
                 </div>
                 <div class="card-body">
 
@@ -72,7 +72,7 @@
                         <div class="row g-3">
                             <div class="col-md-4"></div>
                             <div class="col-md-4">
-                                <label for="firstName" class="form-label"><strong>R.U.N.</strong></label>
+                                <label for="firstName" class="form-label"><strong>R.U.N. Paciente / Cliente</strong></label>
                                 <input type="text" class="form-control" name="rut" id="idrut_emp"
                                        onfocusout="validaRut(document.form1.rut.value)" autocomplete="off" required>
                             </div>

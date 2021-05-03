@@ -189,6 +189,7 @@ class AgendaController extends Controller
                     'fechaAgenda' => $request->fecha_ini,
                     'horaAgenda' => $fecha->format('H:i'),
                     'fechahoraunica' => Auth::user()->idCliente . "-" . $request->fecha_ini . "-" . $fecha->format('H:i'),
+                    'fechaunica' => Auth::user()->idCliente . "-" . $request->fecha_ini,
                     'estadoAgenda' => 1,
                     'vtagenda_cliente_idCliente' => Auth::user()->idCliente
                 ]);
@@ -201,7 +202,8 @@ class AgendaController extends Controller
                     DB::table('vtagenda_agenda')->insert([
                         'fechaAgenda' => $fecha_ges,
                         'horaAgenda' => $fecha->format('H:i'),
-                        'fechahoraunica' => Auth::user()->idCliente . "-" . $fecha_ges->format('Y-d-m') . "-" . $fecha->format('H:i'),
+                        'fechahoraunica' => Auth::user()->idCliente . "-" . $fecha_ges->format('Y-m-d') . "-" . $fecha->format('H:i'),
+                        'fechaunica' => Auth::user()->idCliente . "-" . $fecha_ges->format('Y-m-d'),
                         'estadoAgenda' => 1,
                         'vtagenda_cliente_idCliente' => Auth::user()->idCliente
                     ]);

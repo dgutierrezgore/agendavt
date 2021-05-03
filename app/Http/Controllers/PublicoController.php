@@ -27,7 +27,7 @@ class PublicoController extends Controller
 
         if ($disponibilidad == 0) {
 
-            echo 'Cliente no existe';
+            return view('Publico.nodisponible');
 
         } else {
             $disponibilidad = DB::table('vtagenda_agenda')
@@ -65,6 +65,12 @@ class PublicoController extends Controller
             echo 'Cliente no existe';
 
         } else {
+
+            $cliente = DB::table('vtagenda_agenda')
+                ->join('vtagenda_cliente', 'vtagenda_cliente.idCliente', 'vtagenda_agenda.vtagenda_cliente_idCliente')
+                ->where('codpubCliente', '=', $request->idcliente)
+                ->get();
+
             $disponibilidad = DB::table('vtagenda_agenda')
                 ->join('vtagenda_cliente', 'vtagenda_cliente.idCliente', 'vtagenda_agenda.vtagenda_cliente_idCliente')
                 ->where([
@@ -72,6 +78,8 @@ class PublicoController extends Controller
                     ['estadoAgenda', '=', 1],
                     ['fechaAgenda', '>=', $fecha_ges]
                 ])
+                ->distinct()
+                ->select('fechaAgenda', 'fechaunica')
                 ->get();
 
             $horas_tomadas = DB::table('vtagenda_contacto')
@@ -88,13 +96,16 @@ class PublicoController extends Controller
 
             if ($contacto_run == null) {
                 return view('Publico.agenda', [
-                    'cliente' => $disponibilidad,
+                    'cliente' => $cliente,
+                    'dispo' => $disponibilidad,
+                    'contacto' => $contacto_run,
                     'run' => $request->rut,
                     'horas' => $horas_tomadas
                 ]);
             } else {
                 return view('Publico.agenda2', [
-                    'cliente' => $disponibilidad,
+                    'cliente' => $cliente,
+                    'dispo' => $disponibilidad,
                     'contacto' => $contacto_run,
                     'run' => $request->rut,
                     'horas' => $horas_tomadas
@@ -112,7 +123,7 @@ class PublicoController extends Controller
             ->first();
 
         $h_f_at = DB::table('vtagenda_agenda')
-            ->where('idAgenda', $request->dispo)
+            ->where('idAgenda', $request->dispo_hora)
             ->first();
 
         $min_cliente = DB::table('vtagenda_cliente')
@@ -122,11 +133,11 @@ class PublicoController extends Controller
         $intervarlo = $min_cliente;
 
         $trae_fecha = DB::table('vtagenda_agenda')
-            ->where('idAgenda', '=', $request->dispo)
+            ->where('idAgenda', '=', $request->dispo_hora)
             ->pluck('fechaAgenda');
 
         $trae_hora = DB::table('vtagenda_agenda')
-            ->where('idAgenda', '=', $request->dispo)
+            ->where('idAgenda', '=', $request->dispo_hora)
             ->pluck('horaAgenda');
 
         $hora_fin = $trae_hora[0];
@@ -135,10 +146,31 @@ class PublicoController extends Controller
         $fechaFin = $fechaFin->modify('+' . $intervarlo[0] . 'minutes');
 
         $dispo = DB::table('vtagenda_agenda')
-            ->where('idAgenda', '=', $request->dispo)
+            ->where('idAgenda', '=', $request->dispo_hora)
             ->pluck('estadoAgenda');
 
         if ($dispo[0] == 1) {
+            DB::table('vtagenda_contacto')->insert([
+                'rutContacto' => $request->runcontacto,
+                'nombreContacto' => $request->nombrecontacto,
+                'celularContacto' => $request->fonocontacto,
+                'correoContacto' => $request->mailcontacto,
+                'tipoAtencion' => 'VIA WEB',
+                'obsContacto' => $request->obs,
+                'estadoContacto' => 1,
+                'fechaRegistro' => date('Y-m-d H:i:s'),
+                'fechaAtencion' => $trae_fecha[0],
+                'horaAtencion' => $trae_hora[0],
+                'horaFinAtencion' => $fechaFin->format('H:i'),
+                'vtagenda_agenda_idAgenda' => $request->dispo_hora,
+                'vtagenda_agenda_vtagenda_cliente_idCliente' => $request->idcliente
+            ]);
+
+            // Update
+            DB::table('vtagenda_agenda')
+                ->where('idAgenda', $request->dispo_hora)
+                ->update(['estadoAgenda' => 2]);
+
             $data_correo = array(
                 'nombre_contacto' => $request->nombrecontacto,
                 'nombre_cliente' => $datos_cliente->nombreCliente,
@@ -155,30 +187,23 @@ class PublicoController extends Controller
                 ->cc($datos_cliente->correoCliente)
                 ->bcc('soporte@virtualcall.cl')
                 ->send(new AvisoTomaDeHora($data_correo));
-
-            DB::table('vtagenda_contacto')->insert([
-                'rutContacto' => $request->runcontacto,
-                'nombreContacto' => $request->nombrecontacto,
-                'celularContacto' => $request->fonocontacto,
-                'correoContacto' => $request->mailcontacto,
-                'tipoAtencion' => 'VIA WEB',
-                'obsContacto' => $request->obs,
-                'estadoContacto' => 1,
-                'fechaRegistro' => date('Y-m-d H:i:s'),
-                'fechaAtencion' => $trae_fecha[0],
-                'horaAtencion' => $trae_hora[0],
-                'horaFinAtencion' => $fechaFin->format('H:i'),
-                'vtagenda_agenda_idAgenda' => $request->dispo,
-                'vtagenda_agenda_vtagenda_cliente_idCliente' => $request->idcliente
-            ]);
-
-            // Update
-            DB::table('vtagenda_agenda')
-                ->where('idAgenda', $request->dispo)
-                ->update(['estadoAgenda' => 2]);
         }
 
         return view('Publico.clientes');
+
+    }
+
+    public function traedispodia(Request $request)
+    {
+
+        $retorno = DB::table('vtagenda_agenda')
+            ->where([
+                ['fechaunica', $_POST['id']],
+                ['estadoAgenda', 1,]
+            ])
+            ->get();
+
+        return $retorno;
 
     }
 

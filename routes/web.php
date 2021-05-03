@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/Agenda/Publico/{id}', function ($id) {
     return \App\Http\Controllers\PublicoController::agenda_publico($id);
 });
-Route::post('/Agenda/Publico/AvanzarFase2',[\App\Http\Controllers\PublicoController::class,'agenda_fase_2']);
-
+Route::post('/Agenda/Publico/AvanzarFase2', [\App\Http\Controllers\PublicoController::class, 'agenda_fase_2']);
+Route::post('/Agenda/Publico/TraeDisponibilidadDia', [\App\Http\Controllers\PublicoController::class, 'traedispodia']);
 Route::post('/Agenda/Publico/TomarHoraOnline', [\App\Http\Controllers\PublicoController::class, 'agendar_hora']);
 
 Auth::routes();

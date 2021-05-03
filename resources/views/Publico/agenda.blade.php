@@ -109,32 +109,38 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
-                                <label for="state" class="form-label">Disponibilidad</label>
-                                <select class="form-select" name="dispo" required>
-                                    <option value="">Elegir Hora de Atención...</option>
-                                    @foreach($cliente as $listado)
+                            <div class="col-md-3">
+                                <label for="state" class="form-label">Disponibilidad de Día</label>
+                                <select class="form-select" id="dispo_dia" name="dispo" required>
+                                    <option value="">Elegir día de Atención...</option>
+                                    @foreach($dispo as $listado)
                                         <option
-                                            value="{{ $listado->idAgenda }}">
+                                            value="{{ $listado->fechaunica }}">
                                             @if(date("N", strtotime($listado->fechaAgenda))==1)
                                                 Lunes,
                                             @elseif(date("N", strtotime($listado->fechaAgenda))==2)
                                                 Martes,
-                                            @elseif(date("N", strtotime($listado->fechaAgenda))==2)
+                                            @elseif(date("N", strtotime($listado->fechaAgenda))==3)
                                                 Miércoles,
-                                            @elseif(date("N", strtotime($listado->fechaAgenda))==2)
+                                            @elseif(date("N", strtotime($listado->fechaAgenda))==4)
                                                 Jueves,
-                                            @elseif(date("N", strtotime($listado->fechaAgenda))==2)
+                                            @elseif(date("N", strtotime($listado->fechaAgenda))==5)
                                                 Viernes,
-                                            @elseif(date("N", strtotime($listado->fechaAgenda))==2)
+                                            @elseif(date("N", strtotime($listado->fechaAgenda))==6)
                                                 Sábado,
-                                            @elseif(date("N", strtotime($listado->fechaAgenda))==2)
+                                            @elseif(date("N", strtotime($listado->fechaAgenda))==7)
                                                 Domingo,
                                             @endif
                                             {{ date('d-m-Y', strtotime($listado->fechaAgenda)) }}
-                                            - {{ $listado->horaAgenda }} Hrs.
                                         </option>
                                     @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="state" class="form-label">Disponibilidad de Hora</label>
+                                <select class="form-select" id="combo_dispo" name="dispo_hora" required>
+                                    <option value="">Elegir hora de Atención...</option>
                                 </select>
                             </div>
 
@@ -176,25 +182,32 @@
                             <tr>
                                 <td>
                                     @if(date("N", strtotime($listado->fechaAtencion))==1)
-                                        Lunes, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a las {{ ($listado->horaAtencion) }}
+                                        Lunes, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
                                     @endif
                                     @if(date("N", strtotime($listado->fechaAtencion))==2)
-                                        Martes, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }}
+                                        Martes, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
                                     @endif
                                     @if(date("N", strtotime($listado->fechaAtencion))==3)
-                                        Miércoles, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }}
+                                        Miércoles, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
                                     @endif
                                     @if(date("N", strtotime($listado->fechaAtencion))==4)
-                                        Jueves, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }}
+                                        Jueves, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
                                     @endif
                                     @if(date("N", strtotime($listado->fechaAtencion))==5)
-                                        Viernes, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }}
+                                        Viernes, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
                                     @endif
                                     @if(date("N", strtotime($listado->fechaAtencion))==6)
-                                        Sábado, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }}
+                                        Sábado, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
                                     @endif
                                     @if(date("N", strtotime($listado->fechaAtencion))==7)
-                                        Domingo, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }}
+                                        Domingo, {{ date("d-m-Y", strtotime($listado->fechaAtencion)) }} a
+                                        las {{ ($listado->horaAtencion) }} hrs.
                                     @endif
                                 </td>
                                 <td>{{ $listado->nombreCliente }} </td>
@@ -221,7 +234,52 @@
         </div>
     </footer>
 </main>
-
-
 </body>
+<script>
+    $('#dispo_dia').on('change', function () {
+
+// Guardamos el select de cursos
+        var cursos = $("#dispo_hora");
+        alert('1');
+        // Guardamos el select de alumnos
+        var alumnos = $(this);
+
+        if ($(this).val() != '') {
+            $.ajax({
+                data: {
+                    "id": alumnos.val(),
+                    "_token": "{{ csrf_token() }}",
+                },
+                url: 'TraeDisponibilidadHard',
+                type: 'POST',
+                dataType: 'json',
+
+                beforeSend: function () {
+                    alumnos.prop('disabled', true);
+                },
+                success: function (r) {
+                    alumnos.prop('disabled', false);
+
+                    // Limpiamos el select
+                    cursos.find('option').remove();
+
+                    $(r).each(function (i, v) { // indice, valor
+                        cursos.append('<option value="' + v.idinfdispohard + '">' + v.fechadispo + ' - ' + v.jornadadispo + '</option>');
+                    })
+
+                    cursos.prop('disabled', false);
+                },
+                error: function () {
+                    alert('Ocurrio un error en el servidor ..');
+                    alumnos.prop('disabled', false);
+                }
+            });
+        } else {
+            cursos.find('option').remove();
+            cursos.prop('disabled', true);
+        }
+
+    });
+
+</script>
 </html>
