@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AvisoCancelaHora;
 use App\Mail\AvisoTomaDeHora;
 use Illuminate\Http\Request;
 use DateTime;
@@ -21,9 +22,11 @@ class PublicoController extends Controller
             ->where([
                 ['codpubCliente', '=', $id],
                 ['estadoAgenda', '=', 1],
-                ['fechaAgenda', '>=', $fecha_ges]
+                ['fechaAgenda', '>=', $fecha_ges->modify('-1 day')]
             ])
             ->count();
+
+        //dd($disponibilidad);
 
         if ($disponibilidad == 0) {
 
@@ -35,7 +38,7 @@ class PublicoController extends Controller
                 ->where([
                     ['codpubCliente', '=', $id],
                     ['estadoAgenda', '=', 1],
-                    ['fechaAgenda', '>=', $fecha_ges]
+                    ['fechaAgenda', '>=', $fecha_ges->modify('-1 day')]
                 ])
                 ->get();
 
@@ -56,13 +59,13 @@ class PublicoController extends Controller
             ->where([
                 ['codpubCliente', '=', $request->idcliente],
                 ['estadoAgenda', '=', 1],
-                ['fechaAgenda', '>=', $fecha_ges]
+                ['fechaAgenda', '>=', $fecha_ges->modify('-1 day')]
             ])
             ->count();
 
         if ($disponibilidad == 0) {
 
-            echo 'Cliente no existe';
+            return view('Publico.nodisponible');
 
         } else {
 
@@ -76,7 +79,7 @@ class PublicoController extends Controller
                 ->where([
                     ['codpubCliente', '=', $request->idcliente],
                     ['estadoAgenda', '=', 1],
-                    ['fechaAgenda', '>=', $fecha_ges]
+                    ['fechaAgenda', '>=', $fecha_ges->modify('-1 day')]
                 ])
                 ->distinct()
                 ->select('fechaAgenda', 'fechaunica')
@@ -204,6 +207,68 @@ class PublicoController extends Controller
             ->get();
 
         return $retorno;
+
+    }
+
+    public function confirmar_hora_web(Request $request)
+    {
+
+        DB::table('vtagenda_contacto')
+            ->where('idContacto', decrypt($request->idcont))
+            ->update([
+                'confContacto' => 'SI',
+                'fecconfContacto' => date('Y-m-d H:i:s')
+            ]);
+
+        return view('Publico.clientes');
+
+    }
+
+    public function cancelar_hora_web(Request $request){
+
+        $datos_cliente = DB::table('vtagenda_cliente')
+            ->where('idCliente', $request->idcli)
+            ->first();
+
+        $h_f_at = DB::table('vtagenda_contacto')
+            ->where('vtagenda_agenda_idAgenda', $request->idcont)
+            ->first();
+
+        $data_correo = array(
+            'nombre_contacto' => $h_f_at->nombreContacto,
+            'nombre_cliente' => $datos_cliente->nombreCliente,
+            'telefono_contacto' => $h_f_at->celularContacto,
+            'mail_contacto' => $h_f_at->correoContacto,
+            'tipo_atencion' => $h_f_at->tipoAtencion,
+            'observaciones' => $h_f_at->obsContacto,
+            'fecha_hora' => date('d-m-Y', strtotime($h_f_at->fechaAtencion)) . ', a las ' . $h_f_at->horaAtencion . ' horas.',
+            'fono' => $datos_cliente->fonoClienteVT,
+        );
+
+        Mail::to($h_f_at->correoContacto)
+            ->cc($datos_cliente->correoCliente)
+            ->bcc('soporte@virtualcall.cl')
+            ->send(new AvisoCancelaHora($data_correo));
+
+        //OK
+
+        DB::table('vtagenda_agenda')
+            ->where('idAgenda', $request->idcont)
+            ->update(['estadoAgenda' => 1]);
+
+        DB::table('vtagenda_contacto')
+            ->where('vtagenda_agenda_idAgenda', $request->idcont)
+            ->update([
+                'estadoContacto' => 2, //1 Ingresado - //2 Anulada
+                'fechaAtencion' => null,
+                'horaAtencion' => null,
+                'confContacto' => null,
+                'fecconfContacto' => date('Y-m-d H:i:s'),
+                'vtagenda_agenda_idAgenda' => null,
+                'vtagenda_agenda_vtagenda_cliente_idCliente' => null,
+            ]);
+
+        return view('Publico.clientes');
 
     }
 

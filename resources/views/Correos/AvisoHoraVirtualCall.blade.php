@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <title>Notificación Gobierno Regional del Biobío</title>
+    <title>Notificación Plataforma Agenda VirtualCALL</title>
 </head>
 <body>
 
@@ -14,7 +14,7 @@
                    style="border: 0px solid #cccccc; border-collapse: collapse;">
                 <tr>
                     <td align="center"
-                        style="padding: 40px 0 30px 0; color: #fffcf9; font-size: 20px; font-weight: bold; font-family: Arial, sans-serif;"
+                        style="padding: 40px 0 30px 0; color: #1f1f1f; font-size: 20px; font-weight: bold; font-family: Arial, sans-serif;"
                         colspan="3">
                         <img src="http://virtualcall.cl/img/bannervc.jpg" alt="">
                     </td>
@@ -25,7 +25,7 @@
                             <center>
                                 <h1>
                                     AVISO HORA DE ATENCIÓN
-                                </h1>
+                                </h1><br>
                             </center>
                             <p><strong>¡HOLA!, {{ strtoupper($data['nombre_contacto']) }}.</strong> <br><br>
                                 Queremos informarte que se ha reservado exitosamente la hora con:
@@ -37,44 +37,77 @@
                 </tr>
                 <tr>
                     <td colspan="3">
-                        <h2>Datos del Contacto</h2>
+                        <h3>
+                            CLIENTE / PACIENTE
+                        </h3>
                     </td>
                 </tr>
                 <tr>
-                    <td><h3>Nombre:</h3>
-                        <p>{{ strtoupper($data['nombre_contacto']) }}</p>
-                    </td>
-                    <td><h3>Teléfono:</h3>
-                        <p>+56 9 {{ strtoupper($data['telefono_contacto']) }}</p>
-                    </td>
-                    <td><h3>Correo Electrónico</h3>
-                        <p>{{ strtoupper($data['mail_contacto']) }}</p>
-                    </td>
+                    <td style="width: 140px">Fecha</td>
+                    <td style="width: 15px">:</td>
+                    <td>{{ date('d-m-Y') }}</td>
                 </tr>
                 <tr>
-                    <td><h3>Tipo de Atención:</h3>
-                        <p>{{ strtoupper($data['tipo_atencion']) }}</p>
-                    </td>
-                    <td colspan="2"><h3>Observaciones:</h3>
-                        <p>{{ strtoupper($data['observaciones']) }}</p>
-                    </td>
+                    <td>Hora</td>
+                    <td>:</td>
+                    <td>{{ date('H:i:s') }}</td>
                 </tr>
+                <tr>
+                    <td>Nombre</td>
+                    <td>:</td>
+                    <td>{{ strtoupper($data['nombre_contacto']) }}</td>
+                </tr>
+                <tr>
+                    <td>Teléfono</td>
+                    <td>:</td>
+                    <td>+56 9 {{ strtoupper($data['telefono_contacto']) }}</td>
+                </tr>
+                <tr>
+                    <td>Correo Electrónico</td>
+                    <td>:</td>
+                    <td>{{ strtoupper($data['mail_contacto']) }}</td>
+                </tr>
+
                 <tr>
                     <td colspan="3">
-                        <h2>Datos de la Atención</h2>
+                        <h3>
+                            INFORMACIÓN
+                        </h3>
                     </td>
+                </tr>
+
+                <tr>
+                    <td>Tipo de Atención</td>
+                    <td>:</td>
+                    <td>{{ strtoupper($data['tipo_atencion']) }}</td>
+                </tr>
+
+                <tr>
+                    <td>Fecha y Hora</td>
+                    <td>:</td>
+                    <td>{{ strtoupper($data['fecha_hora']) }}</td>
+                </tr>
+
+                <tr>
+                    <td>Dirección</td>
+                    <td>:</td>
+                    <td>{{ strtoupper($data['direccion']) }}</td>
+                </tr>
+
+                <tr>
+                    <td>Teléfono</td>
+                    <td>:</td>
+                    <td>+56 {{ strtoupper($data['fono']) }}</td>
                 </tr>
                 <tr>
-                    <td><h3>Fecha y Hora:</h3>
-                        <p>{{ strtoupper($data['fecha_hora']) }}</p>
-                    </td>
-                    <td><h3>Dirección:</h3>
-                        <p>{{ strtoupper($data['direccion']) }}</p>
-                    </td>
-                    <td><h3>Teléfono</h3>
-                        <p>+56 {{ strtoupper($data['fono']) }}</p>
-                    </td>
+                    <td colspan="3"><br></td>
                 </tr>
+                <tr>
+                    <td><strong>OBSERVACIONES:</strong></td>
+                    <td>:</td>
+                    <td>{{ strtoupper($data['observaciones']) }}</td>
+                </tr>
+
                 <br><br>
                 <tr>
                     <td bgcolor="#FFFFFF" style="padding: 20px 20px 30px 30px;" colspan="3">
@@ -82,9 +115,10 @@
                             <tr>
                                 <td style="color: #001F3F; font-family: Arial, sans-serif; font-size: 14px;"
                                     width="75%">
+                                    <center><small><strong>Notificación de Agenda a Clientes</strong></small>
+                                    </center>
                                     <center><strong>Notificación Toma de Hora por Sistema</strong> - VirtualCall Sys.
                                     </center>
-                                    <center><small>® {{ date('Y') }} Plataforma VirtualSys.</small></center>
                                 </td>
                             </tr>
                         </table>

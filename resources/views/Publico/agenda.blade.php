@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -139,7 +139,7 @@
 
                             <div class="col-md-3">
                                 <label for="state" class="form-label">Disponibilidad de Hora</label>
-                                <select class="form-select" id="combo_dispo" name="dispo_hora" required>
+                                <select class="form-select" id="dispo_hora" name="dispo_hora" required>
                                     <option value="">Elegir hora de Atención...</option>
                                 </select>
                             </div>
@@ -235,12 +235,12 @@
     </footer>
 </main>
 </body>
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script>
     $('#dispo_dia').on('change', function () {
 
-// Guardamos el select de cursos
+        // Guardamos el select de cursos
         var cursos = $("#dispo_hora");
-        alert('1');
         // Guardamos el select de alumnos
         var alumnos = $(this);
 
@@ -250,7 +250,7 @@
                     "id": alumnos.val(),
                     "_token": "{{ csrf_token() }}",
                 },
-                url: 'TraeDisponibilidadHard',
+                url: 'TraeDisponibilidadDia',
                 type: 'POST',
                 dataType: 'json',
 
@@ -264,7 +264,7 @@
                     cursos.find('option').remove();
 
                     $(r).each(function (i, v) { // indice, valor
-                        cursos.append('<option value="' + v.idinfdispohard + '">' + v.fechadispo + ' - ' + v.jornadadispo + '</option>');
+                        cursos.append('<option value="' + v.idAgenda + '">' + v.horaAgenda + ' Horas</option>');
                     })
 
                     cursos.prop('disabled', false);

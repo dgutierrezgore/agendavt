@@ -225,7 +225,7 @@ class AgendaController extends Controller
             ->leftjoin('vtagenda_contacto', 'vtagenda_contacto.vtagenda_agenda_idAgenda', 'vtagenda_agenda.idAgenda')
             ->where([
                 ['vtagenda_cliente_idCliente', '=', Auth::user()->idCliente],
-                ['fechaAgenda', '>=', $fecha_ges->modify('-1 day')]
+                ['fechaAgenda', '>=', $fecha_ges->modify('-1 day')],
             ])
             ->orderby('fechaAgenda')
             ->orderby('horaAgenda')

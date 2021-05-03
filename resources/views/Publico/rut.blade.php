@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -65,14 +65,15 @@
                 </div>
                 <div class="card-body">
 
-                    <form action="/Agenda/Publico/AvanzarFase2" method="post" name="form1">
+                    <form action="/Agenda/Publico/AvanzarFase2" method="post" id="form_rut" name="form1">
                         @csrf
                         <input type="hidden" value="{{$cliente[0]->codpubCliente }}" name="idcliente">
 
                         <div class="row g-3">
                             <div class="col-md-4"></div>
                             <div class="col-md-4">
-                                <label for="firstName" class="form-label"><strong>R.U.N. Paciente / Cliente</strong></label>
+                                <label for="firstName" class="form-label"><strong>R.U.N. Paciente /
+                                        Cliente</strong></label>
                                 <input type="text" class="form-control" name="rut" id="idrut_emp"
                                        onfocusout="validaRut(document.form1.rut.value)" autocomplete="off" required>
                             </div>
@@ -105,6 +106,7 @@
             document.form1.submit();
         }
     }
+
     function revisarDigito(dvr) {
         dv = dvr + ""
         if (dv != '0' && dv != '1' && dv != '2' && dv != '3' && dv != '4' && dv != '5' && dv != '6' && dv != '7' && dv != '8' && dv != '9' && dv != 'k' && dv != 'K') {
@@ -115,6 +117,7 @@
         }
         return true;
     }
+
     function revisarDigito2(crut) {
         largo = crut.length;
         if (largo < 2) {
@@ -158,6 +161,7 @@
         }
         return true
     }
+
     function Rut(texto) {
         var tmpstr = "";
         for (i = 0; i < texto.length; i++)
@@ -207,6 +211,12 @@
         return false;
     }
 </script>
-
+<script>
+    $("#form_rut").keypress(function (e) {
+        if (e.which == 13) {
+            return false;
+        }
+    });
+</script>
 </body>
 </html>

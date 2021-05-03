@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -175,7 +175,7 @@
                             <th style="width: 300px">Fecha / Hora</th>
                             <th>Hora de atención tomada con:</th>
                             <th>Estado</th>
-                            <th style="width: 350px">Acciones</th>
+                            <th colspan="2">Confirmación de Asistencia</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -221,10 +221,23 @@
                                 </td>
                                 <td>
                                     @if($listado->confContacto==null)
-                                        <button class="btn btn-sm btn-success"> Confirmar Hora</button>
+                                        <form action="/ConfirmacionHoraClicWeb" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="idcont" value="{{ encrypt($listado->idContacto) }}">
+                                            <button class="btn btn-sm btn-success"> Confirmar Hora</button>
+                                        </form>
                                     @else
+                                        <button class="btn btn-sm btn-success" disabled> Hora Confirmada</button>
                                     @endif
-                                    <button class="btn btn-sm btn-warning"> Cancelar Hora</button>
+                                </td>
+                                <td>
+                                    <form action="/CancelacionHoraClicWeb" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="idcont" value="{{ $listado->vtagenda_agenda_idAgenda }}">
+                                        <input type="hidden" name="idcli"
+                                               value="{{ $listado->vtagenda_agenda_vtagenda_cliente_idCliente }}">
+                                        <button class="btn btn-sm btn-warning"> Cancelar Hora</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
