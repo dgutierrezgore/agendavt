@@ -76,7 +76,12 @@
                                 <td>{{ $listado->nombreContacto }} - +56 9 {{ $listado->celularContacto }}
                                     - {{ $listado->correoContacto }}</td>
                                 <td>
-                                    <center>SI - NO</center>
+                                    <center> @if($listado->confContacto == null)
+                                            <button class="btn btn-xs btn-warning">SIN CONFIRMAR</button>
+                                        @else
+                                            <button class="btn btn-xs btn-success">CONFIRMADA</button>
+                                        @endif
+                                    </center>
                                 </td>
                                 <td>
                                     <center>

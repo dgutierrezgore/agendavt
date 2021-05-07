@@ -15,8 +15,6 @@ Route::post('/CancelacionHoraClicWeb', [\App\Http\Controllers\PublicoController:
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/Agenda/Ver', [App\Http\Controllers\AgendaController::class, 'ver']);
@@ -34,3 +32,5 @@ Route::post('/Agenda/Cancelar', [App\Http\Controllers\AgendaController::class, '
 Route::get('/Agenda/Modificar', [App\Http\Controllers\AgendaController::class, 'modificar']);
 
 Route::get('/Secretaria/CrearDisponibilidad', [App\Http\Controllers\SecretariaController::class, 'crear']);
+
+Route::post('/Agenda/TraerDatosRut', [App\Http\Controllers\AgendaController::class, 'trae_datos']);

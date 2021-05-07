@@ -74,6 +74,7 @@ class AgendaController extends Controller
             ->first();
 
         $data_correo = array(
+            'rutContacto' => $request->rut,
             'nombre_contacto' => $request->nombrec,
             'nombre_cliente' => $datos_cliente->nombreCliente,
             'telefono_contacto' => $request->telefonoc,
@@ -110,6 +111,7 @@ class AgendaController extends Controller
         $fechaFin = $fechaFin->modify('+' . $intervarlo[0] . 'minutes');
 
         DB::table('vtagenda_contacto')->insert([
+            'rutContacto' => $request->rut,
             'nombreContacto' => $request->nombrec,
             'celularContacto' => $request->telefonoc,
             'correoContacto' => $request->mailc,
@@ -295,10 +297,33 @@ class AgendaController extends Controller
             ->update([
                 'estadoContacto' => 2, //1 Ingresado - //2 Anulada
                 'fechaAtencion' => null,
-                'horaAtencion' => null
+                'horaAtencion' => null,
+                'confContacto' => null,
+                'fecconfContacto' => date('Y-m-d H:i:s'),
+                'vtagenda_agenda_idAgenda' => null,
+                'vtagenda_agenda_vtagenda_cliente_idCliente' => null,
             ]);
 
         return back();
+
+    }
+
+    public function trae_datos(Request $request)
+    {
+
+        $num_rut = DB::table('vtagenda_contacto')
+            ->where('rutContacto', $request->rut)
+            ->count();
+
+        $datos_externos = DB::table('vtagenda_contacto')
+            ->where('rutContacto', $request->rut)
+            ->get();
+
+        if ($num_rut == 0) {
+            echo 2;
+        } else {
+            return $datos_externos;
+        }
 
     }
 

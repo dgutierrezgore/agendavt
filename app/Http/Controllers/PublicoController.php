@@ -158,7 +158,7 @@ class PublicoController extends Controller
                 'nombreContacto' => $request->nombrecontacto,
                 'celularContacto' => $request->fonocontacto,
                 'correoContacto' => $request->mailcontacto,
-                'tipoAtencion' => 'VIA WEB',
+                'tipoAtencion' => 'Por Secretaria Virtual',
                 'obsContacto' => $request->obs,
                 'estadoContacto' => 1,
                 'fechaRegistro' => date('Y-m-d H:i:s'),
@@ -179,7 +179,7 @@ class PublicoController extends Controller
                 'nombre_cliente' => $datos_cliente->nombreCliente,
                 'telefono_contacto' => $request->fonocontacto,
                 'mail_contacto' => $request->mailcontacto,
-                'tipo_atencion' => 'SOLICITADA VÍA WEB',
+                'tipo_atencion' => 'Por Secretaria Virtual',
                 'observaciones' => $request->obsc,
                 'fecha_hora' => date('d-m-Y', strtotime($h_f_at->fechaAgenda)) . ', a las ' . $h_f_at->horaAgenda . ' horas.',
                 'direccion' => $datos_cliente->direccionCliente,
@@ -224,7 +224,8 @@ class PublicoController extends Controller
 
     }
 
-    public function cancelar_hora_web(Request $request){
+    public function cancelar_hora_web(Request $request)
+    {
 
         $datos_cliente = DB::table('vtagenda_cliente')
             ->where('idCliente', $request->idcli)

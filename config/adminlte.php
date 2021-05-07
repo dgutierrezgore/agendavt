@@ -236,11 +236,6 @@ return [
             'icon' => 'fas fa-fw fa-calendar',
         ],
         [
-            'text' => 'Mis Contactos',
-            'url' => 'Agenda/Contactos',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
             'text' => 'Gestión Agenda',
             'icon' => 'fas fa-fw fa-share',
             'submenu' => [
@@ -253,6 +248,11 @@ return [
                     'url' => 'Agenda/Modificar',
                 ],
             ],
+        ],
+        [
+            'text' => 'Mis Contactos',
+            'url' => 'Agenda/Contactos',
+            'icon' => 'fas fa-fw fa-user',
         ],
     ],
 
