@@ -6,11 +6,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/Agenda/Publico/{id}', function ($id) {
     return \App\Http\Controllers\PublicoController::agenda_publico($id);
 });
+
+Route::get('/Agenda/ConfirmacionHoraMail/{id}', function ($id) {
+    return \App\Http\Controllers\AvisoPublico::confirmacion_pormail(decrypt($id));
+});
+
 Route::post('/Agenda/Publico/AvanzarFase2', [\App\Http\Controllers\PublicoController::class, 'agenda_fase_2']);
 Route::post('/Agenda/Publico/TraeDisponibilidadDia', [\App\Http\Controllers\PublicoController::class, 'traedispodia']);
 Route::post('/Agenda/Publico/TomarHoraOnline', [\App\Http\Controllers\PublicoController::class, 'agendar_hora']);
 Route::post('/ConfirmacionHoraClicWeb', [\App\Http\Controllers\PublicoController::class, 'confirmar_hora_web']);
 Route::post('/CancelacionHoraClicWeb', [\App\Http\Controllers\PublicoController::class, 'cancelar_hora_web']);
+
+Route::post('/Agenda/Cron/ConfirmacionHoraMail', [\App\Http\Controllers\AvisoPublico::class, 'confirmacion_pormail']);
 
 Auth::routes();
 

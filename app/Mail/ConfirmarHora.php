@@ -10,24 +10,33 @@ use Illuminate\Queue\SerializesModels;
 class ConfirmarHora extends Mailable
 {
     use Queueable, SerializesModels;
+    protected $mailData;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function __construct($mailData)
     {
-        //
+        $this->mailData = $mailData;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
+
     public function build()
     {
-        return $this->view('view.name');
+        $mailData = array(
+            'id_contacto' => $this->mailData['id_contacto'],
+            'nombre_contacto' => $this->mailData['nombre_contacto'],
+            'nombre_cliente' => $this->mailData['nombre_cliente'],
+            'telefono_contacto' => $this->mailData['telefono_contacto'],
+            'mail_contacto' => $this->mailData['mail_contacto'],
+            'tipo_atencion' => $this->mailData['tipo_atencion'],
+            'observaciones' => $this->mailData['observaciones'],
+            'fecha_hora' => $this->mailData['fecha_hora'],
+            'direccion' => $this->mailData['direccion'],
+            'fono' => $this->mailData['fono'],
+        );
+
+        return $this->view('Correos.AvisoConfirmarVirtualCall')
+            ->with([
+                'data' => $mailData
+            ]);
+
     }
 }
