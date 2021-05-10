@@ -58,9 +58,13 @@ class AvisoPublico extends Controller
                 ->where('idContacto', $id)
                 ->first();
 
-            $id = $id_agenda->vtagenda_agenda_idAgenda;
+            $id_agenda = $id_agenda->vtagenda_agenda_idAgenda;
 
-            dd($id);
+            DB::table('vtagenda_agenda')
+                ->where('idAgenda', $id_agenda)
+                ->update([
+                    'estadoAgenda' => 1,
+                ]);
 
             DB::table('vtagenda_contacto')
                 ->where('idContacto', $id)
