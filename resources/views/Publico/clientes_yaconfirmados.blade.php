@@ -48,7 +48,7 @@
 
 <main class="container">
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-6">Confirmación Hora de Atención</h1>
+        <h1 class="display-6">Confirmación / Cancelación Hora de Atención</h1>
     </div>
 
 @if (session('status'))
@@ -61,7 +61,7 @@
     <div class="col">
         <div class="card mb-4 shadow-sm">
             <div class="card-header">
-                <h4 class="my-0 fw-normal">Ud. Ya habia confirmado su hora de atención.</h4>
+                <h4 class="my-0 fw-normal">Ud. Ya habia confirmado ó cancelado su hora de atención.</h4>
             </div>
             <div class="card-body">
             </div>
