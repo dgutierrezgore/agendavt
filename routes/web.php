@@ -11,6 +11,11 @@ Route::get('/Agenda/ConfirmacionHoraMail/{id}', function ($id) {
     return \App\Http\Controllers\AvisoPublico::confirmacion_pormail(decrypt($id));
 });
 
+Route::get('/Agenda/CancelarHoraMail/{id}', function ($id) {
+    return \App\Http\Controllers\AvisoPublico::cancelacion_pormail(decrypt($id));
+});
+
+
 Route::post('/Agenda/Publico/AvanzarFase2', [\App\Http\Controllers\PublicoController::class, 'agenda_fase_2']);
 Route::post('/Agenda/Publico/TraeDisponibilidadDia', [\App\Http\Controllers\PublicoController::class, 'traedispodia']);
 Route::post('/Agenda/Publico/TomarHoraOnline', [\App\Http\Controllers\PublicoController::class, 'agendar_hora']);
