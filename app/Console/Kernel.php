@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('enviarmail:task')->dailyAt('06:00');
+         $schedule->command('enviarmail:task')->everyMinute();
     }
 
 
