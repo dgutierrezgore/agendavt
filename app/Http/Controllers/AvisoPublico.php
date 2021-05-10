@@ -48,7 +48,7 @@ class AvisoPublico extends Controller
             ->where([
                 ['idContacto', $id],
                 ['confContacto', null],
-                ['estadoContacto', 2]
+                ['estadoContacto', 1]
             ])
             ->count();
 
