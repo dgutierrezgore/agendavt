@@ -17,7 +17,8 @@ class AvisoPublico extends Controller
         $hora = DB::table('vtagenda_contacto')
             ->where([
                 ['idContacto', $id],
-                ['confContacto', null]
+                ['confContacto', null],
+                ['estadoContacto', 1]
             ])
             ->count();
 
@@ -26,6 +27,7 @@ class AvisoPublico extends Controller
             return view('Publico.clientes_yaconfirmados');
 
         } else {
+
             DB::table('vtagenda_contacto')
                 ->where('idContacto', $id)
                 ->update([
@@ -34,6 +36,7 @@ class AvisoPublico extends Controller
                 ]);
 
             return view('Publico.clientes_confirmados');
+
         }
 
     }
@@ -44,7 +47,8 @@ class AvisoPublico extends Controller
         $hora = DB::table('vtagenda_contacto')
             ->where([
                 ['idContacto', $id],
-                ['confContacto', null]
+                ['confContacto', null],
+                ['estadoContacto', 2]
             ])
             ->count();
 
@@ -78,6 +82,8 @@ class AvisoPublico extends Controller
                     'vtagenda_agenda_vtagenda_cliente_idCliente' => null,
                 ]);
         }
+
+        return view('Publico.clientes_cancelados');
 
     }
 
